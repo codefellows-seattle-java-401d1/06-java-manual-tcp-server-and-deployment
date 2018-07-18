@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.LinkedList;
 
 public class ConnectionHandler implements Runnable {
     private User user;
@@ -35,6 +36,14 @@ public class ConnectionHandler implements Runnable {
                 this.user.socket.close();
             } else if (line.startsWith("@list")) {
                 response = listUsers(line);
+            } else if (line.startsWith("@nickname")) {
+                //users can change their nickname
+                //call changeNickname method here
+                String newNickname = changeNickname();
+
+                backToClient.writeBytes("changed to..." + newNickname);
+            }else if (line.startsWith("@dm")) {
+                //send a message directly to another user by nickname
             }
             // TODO: implement other command methods
 
@@ -44,5 +53,34 @@ public class ConnectionHandler implements Runnable {
 
     public String listUsers (String line) {
         // TODO: implement list users
+        String response = "";
+
+        for (User user : TCPServer.connections) {
+            response += user.toString() + "\n";
+        }
+
+        return response;
+    }
+
+
+    public String changeNickname() throws IOException {
+
+        System.out.print("Changed your nickname: ");
+        InputStream inputStream = this.user.socket.getInputStream();
+        InputStreamReader reader = new InputStreamReader(inputStream);
+        BufferedReader buffer = new BufferedReader(reader);
+
+        String line = "";
+        boolean isRunning = true;
+        while (isRunning) {
+            line = buffer.readLine();
+            System.out.println(line);
+            isRunning = false;
+        }
+
+        //grab the user by the id number and change the nickname from "unknown" to "<new nickname>"
+        //uses line 50 to broadcast back to the user the socket information and user.
+
+        return line;
     }
 }

@@ -7,7 +7,7 @@ public class User {
     public Socket socket;
 
     public User(String nickname, Socket socket) {
-        this.id = "" + Math.random();
+        this.id = "" + Math.ceil(Math.random() * 1000);
         this.nickname = nickname;
         this.socket = socket;
     }

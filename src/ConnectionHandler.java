@@ -35,6 +35,10 @@ public class ConnectionHandler implements Runnable {
                 this.user.socket.close();
             } else if (line.startsWith("@list")) {
                 response = listUsers(line);
+            } else if (line.startsWith("@nickname")) {
+                //users can change thier nickname
+            }else if (line.startsWith("@dm")) {
+                //send a message directly to another user by nickname
             }
             // TODO: implement other command methods
 

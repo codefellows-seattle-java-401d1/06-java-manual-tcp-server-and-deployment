@@ -1,0 +1,14 @@
+ 
+Compile and run the server file.
+
+connect with telnet to either localserver: 6789 or the port set up online. 
+
+commands:
+
+@dm <user> <message>: send the given message to the given user.
+
+@nickname <new nickname>: Change your displayed nickname to the given name. 
+
+@list: Return a list of all users connected to the same server as you.
+
+@quit: Remove yourself from the server.

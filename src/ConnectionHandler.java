@@ -42,7 +42,14 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
-    public String listUsers (String line) {
-        // TODO: implement list users
+    public static String listUsers(String line) {
+        String response = "\n";
+
+        for (User user : TCPServer.connections) {
+            response += "\n" + user.toString() + "\n";
+        }
+
+        return response;
     }
 }
+

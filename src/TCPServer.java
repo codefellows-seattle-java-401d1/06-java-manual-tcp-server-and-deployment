@@ -51,16 +51,6 @@ class TCPServer {
         }
     }
 
-    private static String listUsers(String line) {
-        String response = "";
-
-        for (User user : connections) {
-            response += user.toString() + "\n";
-        }
-
-        return response;
-    }
-
     public static int getPort() {
         int defaultPort = 6789;
 

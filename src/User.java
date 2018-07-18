@@ -13,6 +13,6 @@ public class User {
     }
 
     public String toString() {
-        return "[" + this.id + "](" + this.nickname + ")";
+        return "(" + this.nickname + ")";
     }
 }

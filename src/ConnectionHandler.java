@@ -78,6 +78,9 @@ public class ConnectionHandler implements Runnable {
             isRunning = false;
         }
 
+        //grab the user by the id number and change the nickname from "unknown" to "<new nickname>"
+        //uses line 50 to broadcast back to the user the socket information and user.
+
         return line;
     }
 }

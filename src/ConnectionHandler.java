@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ConnectionHandler implements Runnable {
     private User user;
@@ -35,6 +36,11 @@ public class ConnectionHandler implements Runnable {
                 this.user.socket.close();
             } else if (line.startsWith("@list")) {
                 response = listUsers(line);
+            } else if (line.startsWith("@nickname")) {
+                response = nickname(name);
+
+            } else if (line.startsWith("@dm")) {
+
             }
             // TODO: implement other command methods
 
@@ -42,7 +48,27 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
-    public String listUsers (String line) {
-        // TODO: implement list users
+    public static String listUsers(String line) {
+        String response = "";
+
+        for (User user : TCPServer.connections) {
+            response += user.toString() + "\n";
+        }
+
+        return response;
     }
+
+    public String nickname(String name) {
+        Scanner findNickname = new Scanner(name);
+        String nickname = findNickname.next();
+
+        User user1 = new User("hello", new Socket());
+        String xs = user1.id;
+
+        String response = " User's nickname is: " + xs + nickname;
+
+        return response;
+    }
+
+
 }

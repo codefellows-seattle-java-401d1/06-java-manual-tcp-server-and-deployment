@@ -36,7 +36,8 @@ public class ConnectionHandler implements Runnable {
             } else if (line.startsWith("@list")) {
                 response = listUsers(line);
             } else if (line.startsWith("@nickname")) {
-                response = setNickname(line);
+                String newNickname = setNickname();
+                response = "You updated your nickname to " + newNickname;
             }
             // TODO: implement other command methods
 
@@ -55,26 +56,21 @@ public class ConnectionHandler implements Runnable {
         return response;
     }
 
-    public String setNickname(String newNickname) throws IOException {
+    public String setNickname() throws IOException {
         // Get current nickname
         InputStream inputStream = this.user.socket.getInputStream();
         InputStreamReader reader = new InputStreamReader(inputStream);
         BufferedReader buffer = new BufferedReader(reader);
 
+        String newNickname = "";
+
         boolean isRunning = true;
         while (isRunning) {
-            String line = buffer.readLine();
-            System.out.println(line);
+            newNickname = buffer.readLine();
             isRunning = false;
         }
-        // Assign current nickname to variable
-//        String originName = this.nickname.toString();
 
-        // User to change variable to new nickname
-
-
-        // Feedback to user that new nickname has been set
-        // Return nickname variable
+        this.user.nickname = newNickname;
         return newNickname;
     }
 }

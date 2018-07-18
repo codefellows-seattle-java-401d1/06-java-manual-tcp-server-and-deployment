@@ -7,11 +7,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 class TCPServer {
-    private static List<User> connections = new ArrayList<>();
+    public static List<User> connections = new ArrayList<>();
 
     // send a message to all open connections
     // stretch-TODO: prevent messages from being broadcast to the same user
     // that sent them.
+
+    public static String privateSend(String message, String User){
+        boolean userFound = false;
+        while(userFound==false) {
+            for (User user : connections) {
+                if (user.nickname == User) {
+                    try {
+                        DataOutputStream outToClient = new DataOutputStream(user.socket.getOutputStream());
+                        outToClient.writeBytes(message);
+                    } catch (IOException e) {
+                    }
+                    userFound = true;
+                }
+            }
+        }
+        if(userFound=true){
+            return "message sent!";
+        }else{
+            return "user not found.";
+        }
+    }
+
     public static void broadcast(String message) {
         for (User user : connections) {
             try {
@@ -19,6 +41,19 @@ class TCPServer {
                 outToClient.writeBytes(message);
             } catch (IOException e) {
 
+            }
+        }
+    }
+
+    public static void broadcast(String message, String ignoredUser) {
+        for (User user : connections) {
+            if(!user.nickname.equals(ignoredUser)) {
+                try {
+                    DataOutputStream outToClient = new DataOutputStream(user.socket.getOutputStream());
+                    outToClient.writeBytes(message);
+                } catch (IOException e) {
+
+                }
             }
         }
     }

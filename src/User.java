@@ -1,4 +1,5 @@
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.UUID;
 
@@ -17,9 +18,14 @@ public class User {
         return "[" + this.id + "](" + this.nickname + ")";
     }
 
-    public void SendMessgae(String message) {
-        DataOutputStream outToClient = new DataOutputStream(this.socket.getOutputStream());
-        outToClient.writeBytes(message + "\n");
-    } //need try catch
+    // wrote this in class during code review. I did not get it on my own.
+    public void sendMessgae(String message) {
+        try {
+            DataOutputStream outToClient = new DataOutputStream(this.socket.getOutputStream());
+            outToClient.writeBytes(message + "\n");
+        } catch (IOException e) {
+
+        }
+    }
 
 }

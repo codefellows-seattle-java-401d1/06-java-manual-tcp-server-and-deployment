@@ -11,14 +11,19 @@ class TCPServer {
 
     // send a message to all open connections
     // stretch-TODO: prevent messages from being broadcast to the same user
-    // that sent them.
+    // that sent them.  **DID NOT DO STRETCH GOAL**
     public static void broadcast(String message) {
         for (User user : connections) {
-            try {
-                DataOutputStream outToClient = new DataOutputStream(user.socket.getOutputStream());
-                outToClient.writeBytes(message);
-            } catch (IOException e) {
+            user.sendMessgae(message);
+        }
+    }
 
+    // wrote this in class during code review. I did not get it on my own.
+    // only sends a message to the person that was specified
+    public static void message(String nickname, String message) {
+        for (User user : connections) {
+            if (user.nickname.equals(nickname)) {
+                user.sendMessgae(message);
             }
         }
     }

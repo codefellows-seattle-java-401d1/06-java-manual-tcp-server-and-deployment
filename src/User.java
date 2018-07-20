@@ -6,7 +6,7 @@ public class User {
     public String nickname;
     public Socket socket;
 
-    public User(String nickname, Socket socket) {
+    public User(int id, String nickname, Socket socket) {
         this.id = "" + Math.random();
         this.nickname = nickname;
         this.socket = socket;
@@ -14,5 +14,13 @@ public class User {
 
     public String toString() {
         return "[" + this.id + "](" + this.nickname + ")";
+    }
+
+    public void sendMessageToServer(String message) {
+
+    }
+
+    public void changeNickname(String newName) {
+        this.nickname = newName;
     }
 }

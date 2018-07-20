@@ -23,6 +23,14 @@ class TCPServer {
         }
     }
 
+    public static void message(String nickname, String message) {
+        for (User user : connections) {
+            if (user.nickname.equals(nickname)) {
+                User.sendMessage(message);
+            }
+        }
+    }
+
     public static void main(String argv[]) throws Exception {
         startServer();
     }

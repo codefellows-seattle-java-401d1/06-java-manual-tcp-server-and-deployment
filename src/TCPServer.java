@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 class TCPServer {
-    private static List<User> connections = new ArrayList<>();
+    public static List<User> connections = new ArrayList<>();
+
+    public static void main(String argv[]) throws Exception {
+        startServer();
+    }
 
     // send a message to all open connections
-    // stretch-TODO: prevent messages from being broadcast to the same user
     // that sent them.
     public static void broadcast(String message) {
         for (User user : connections) {
@@ -18,13 +21,9 @@ class TCPServer {
                 DataOutputStream outToClient = new DataOutputStream(user.socket.getOutputStream());
                 outToClient.writeBytes(message);
             } catch (IOException e) {
-
+                System.err.println("Caught IOException: " + e.getMessage());
             }
         }
-    }
-
-    public static void main(String argv[]) throws Exception {
-        startServer();
     }
 
     public static void startServer() {
@@ -51,16 +50,6 @@ class TCPServer {
         }
     }
 
-    private static String listUsers(String line) {
-        String response = "";
-
-        for (User user : connections) {
-            response += user.toString() + "\n";
-        }
-
-        return response;
-    }
-
     public static int getPort() {
         int defaultPort = 6789;
 
@@ -73,5 +62,9 @@ class TCPServer {
             }
         }
         return defaultPort;
+    }
+    // stretch-TODO: prevent messages from being broadcast to the same user
+    public static String message(String user, String message) {
+        return "@"+ user + "says : " + message;
     }
 }

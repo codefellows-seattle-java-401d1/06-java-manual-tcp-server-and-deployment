@@ -1,26 +1,37 @@
-// connect to this server using telnet:
-// telnet localhost 6789
-
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
 class TCPServer {
-    private static List<User> connections = new ArrayList<>();
+    public static List<User> connections = new ArrayList<>();
 
-    // send a message to all open connections
-    // stretch-TODO: prevent messages from being broadcast to the same user
-    // that sent them.
     public static void broadcast(String message) {
         for (User user : connections) {
             try {
                 DataOutputStream outToClient = new DataOutputStream(user.socket.getOutputStream());
-                outToClient.writeBytes(message);
+                outToClient.writeBytes(message + "\n");
             } catch (IOException e) {
 
             }
         }
+    }
+
+    public static void message(String nickname, String message) {
+        for (User user : connections) {
+            try {
+                if (user.nickname.equals(nickname)) {
+                    DataOutputStream outToClient = new DataOutputStream(user.socket.getOutputStream());
+                    outToClient.writeBytes(message + "\n");
+                }
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
+    public static void removeUser(User user) {
+        connections.remove(user);
     }
 
     public static void main(String argv[]) throws Exception {

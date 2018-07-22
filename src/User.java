@@ -15,4 +15,8 @@ public class User {
     public String toString() {
         return "[" + this.id + "](" + this.nickname + ")";
     }
+
+    public void settingNickname(String setName) {
+        this.nickname = setName;
+    }
 }

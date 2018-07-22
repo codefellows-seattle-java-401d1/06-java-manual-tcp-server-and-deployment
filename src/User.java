@@ -15,4 +15,9 @@ public class User {
     public String toString() {
         return "[" + this.id + "](" + this.nickname + ")";
     }
+
+    // help from looking at Panos' code - my method was overly complex for no reason!
+    public void changeNickname (String newNickname){
+        this.nickname = newNickname;
+    }
 }

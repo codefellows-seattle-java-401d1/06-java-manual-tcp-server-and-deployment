@@ -1,9 +1,9 @@
 import java.io.*;
-import java.net.Socket;
-import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 public class ConnectionHandler implements Runnable {
     public User user;
+    private String[] wordline = new String[2];
 
     public ConnectionHandler(User user) {
         this.user = user;
@@ -18,7 +18,7 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
-    public void handleMessage() throws IOException {
+    public String handleMessage() throws IOException {
         InputStream inputStream = this.user.socket.getInputStream();
         InputStreamReader reader = new InputStreamReader(inputStream);
         BufferedReader buffer = new BufferedReader(reader);
@@ -29,16 +29,20 @@ public class ConnectionHandler implements Runnable {
         boolean isRunning = true;
         while (isRunning) {
             String line = buffer.readLine();
-            String response = line + " back atcha, " + user.nickname + " \n";
+            String response = " back atcha, " + user.nickname + " \n";
 
             if (line.startsWith("@quit")) {
                 isRunning = false;
                 this.user.socket.close();
             } else if (line.startsWith("@list")) {
                 response = listUsers(line);
+            } else if (line.startsWith("@nickname")){
+               String[] wordsLine = line.split(" ");
+                String newNickname = wordsLine[1];
+                this.user.changeNickname(newNickname);
+                response = "Hello " + this.user.nickname;
+
             }
-//            } else if (line.startsWith("@nickname")){
-//                response = changeNickname(line);
 //            } else if(line.startsWith("@dm")){
 //                response = directMessage(line);
 //            }else if (line.startsWith(@man)){
@@ -49,45 +53,18 @@ public class ConnectionHandler implements Runnable {
 
             TCPServer.broadcast(this.user.toString() + ": " + response);
         }
-
+        return "keep talking!";
     }
 
     public String listUsers (String line) throws IOException{
         String response = "";
             for (User user : TCPServer.connections) {
-                response += user.toString() + "\n";
+                response += "\n" + user.toString() + "\n";
             }
             return response;
         }
 
 
-    public String changeNickname (String line) throws IOException{
-
-        String newNickname = this.user.nickname;
-        InputStream inputStream = this.user.socket.getInputStream();
-        InputStreamReader reader = new InputStreamReader(inputStream);
-        BufferedReader buffer = new BufferedReader(reader);
-
-        boolean isRunning = true;
-        while (isRunning) {
-             line = buffer.readLine();
-            System.out.println(line);
-            isRunning = false;
-        }
-       newNickname = buffer;
-
-        for (user: TCPServer.connections) {
-            if (user.nickname != newNickname){
-                user++;
-            } else {
-                this.user.nickname = newNickname
-            }
-        }
-        String response = this.user.nickame;
-        OutputStream outputStream = response.getOutputStream();
-        DataOutputStream backToClient = new DataOutputStream(outputStream);
-            return response;
-      }
 //
 //
 //    public String directMessage (String line) throws IOException{ }

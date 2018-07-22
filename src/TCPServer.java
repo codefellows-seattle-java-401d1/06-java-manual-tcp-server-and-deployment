@@ -64,4 +64,7 @@ class TCPServer {
         return defaultPort;
     }
     // stretch-TODO: prevent messages from being broadcast to the same user
+    public static String message(String user, String message) {
+        return "@"+ user + "says : " + message;
+    }
 }

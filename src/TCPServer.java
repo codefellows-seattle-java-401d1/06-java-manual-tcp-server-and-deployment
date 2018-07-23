@@ -14,11 +14,14 @@ class TCPServer {
     // that sent them.
     public static void broadcast(String message) {
         for (User user : connections) {
-            try {
-                DataOutputStream outToClient = new DataOutputStream(user.socket.getOutputStream());
-                outToClient.writeBytes(message);
-            } catch (IOException e) {
+            user.sendMessage(message);
+        }
+    }
 
+    public static void message(String nickname, String message) {
+        for (User user : connections) {
+            if (user.nickname.equals(nickname)) {
+                user.sendMessage(message);
             }
         }
     }
@@ -50,16 +53,6 @@ class TCPServer {
 
         }
     }
-
-//    private static String listUsers(String line) {
-//        String response = "";
-//
-//        for (User user : connections) {
-//            response += user.toString() + "\n";
-//        }
-//
-//        return response;
-//    }
 
     public static int getPort() {
         int defaultPort = 6789;
